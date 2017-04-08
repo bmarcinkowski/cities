@@ -3,7 +3,12 @@ FROM php:7.1-fpm
 VOLUME /data/www/var/cache /data/www/var/logs
 
 RUN apt-get update
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 RUN usermod -u 1000 www-data
 
 ##Set up debugger
