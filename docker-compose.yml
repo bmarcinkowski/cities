@@ -14,16 +14,14 @@ services:
     build: ./docker/php
     volumes:
       - ./:/app
-    ports:
-      - "9000:9000"
+    expose:
+      - "9000"
     working_dir: /app
     links:
       - db
     environment:
-      - "DB_HOST=db"
-      - "DB_DATABASE=vanilla_app"
-      - "DB_USERNAME=vanilla"
-      - "DB_PASSWORD=someRandomString"
+      PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
+      XDEBUG_CONFIG: remote_host=192.168.1.7
   db:
     image: postgres:9.6.2
     ports:
