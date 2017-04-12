@@ -89,6 +89,7 @@ class District
     public function setId($id): District
     {
         $this->id = $id;
+
         return $this;
     }
 

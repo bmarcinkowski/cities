@@ -12,7 +12,7 @@
     {{ form_start(searchNameForm) }}
     {{ form_label(searchNameForm.n) }}
     {{ form_errors(searchNameForm.n) }}
-    {{ form_widget(searchNameForm.n, { 'name': 'foo' }) }}
+    {{ form_widget(searchNameForm.n) }}
     {{ form_end(searchNameForm) }}
 
     {% if searchCriteria is not empty %}
