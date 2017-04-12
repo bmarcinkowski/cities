@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for type, flash_messages in app.session.flashBag.all %}
+        {% for flash_message in flash_messages %}
+            <div class="flash-{{ type }}">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_start(searchNameForm) }}
+    {{ form_label(searchNameForm.n) }}
+    {{ form_errors(searchNameForm.n) }}
+    {{ form_widget(searchNameForm.n, { 'name': 'foo' }) }}
+    {{ form_end(searchNameForm) }}
+
+    {% if searchCriteria is not empty %}
+        <a href="{{ url('district_index') }}">rozpocznij nowe wyszukiwanie</a>
+    {% endif %}
+
+    {% if districts is not empty %}
+        <h1>Lista dzielnic</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>{{ 'Nazwa'|sortHeader('o_n', searchCriteria, orderCriteria)|raw }}</th>
+                <th>{{ 'Obszar (km<sup>2</sup>)'|sortHeader('o_a', searchCriteria, orderCriteria)|raw }}</th>
+                <th>{{ 'Populacja'|sortHeader('o_p', searchCriteria, orderCriteria)|raw }}</th>
+                <th>{{ 'Gęstość zaludnienia'|sortHeader('o_pd', searchCriteria, orderCriteria)|raw }}</th>
+                <th>{{ 'Miasto'|sortHeader('o_c', searchCriteria, orderCriteria)|raw }}</th>
+                <th>Adres</th>
+                <th>Akcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for district in districts %}
+                <tr>
+                    <td>{{ district.name }}</td>
+                    <td>{{ district.area }} km<sup>2</sup></td>
+                    <td>{{ district.population }} osób</td>
+                    <td>{{ district.populationDensity }} osób/km<sup>2</sup></td>
+                    <td><a href="{{ url('district_index', {c: district.city}) }}">{{ district.cityName }}</a></td>
+                    <td><a href="{{ district.url }}" target="_blank">link</a></td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('district_show', { 'id': district.id }) }}">pokaż</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% elseif hasDistrictInDatabase %}
+        nie znaleziono rekordów w bazie dla tych filtrów wyszukiwania
+    {% else %}
+        brak dzielnic - przeprowadziłeś import danych ?:)
+    {% endif %}
+
+{% endblock %}

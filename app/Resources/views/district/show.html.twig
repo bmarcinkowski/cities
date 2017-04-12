@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if district is not empty%}
+        <h1>Dzielnica</h1>
+
+        <table>
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ district.id }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa</th>
+                <td>{{ district.name }}</td>
+            </tr>
+            <tr>
+                <th>Obszar (km<sup>2</sup>)</th>
+                <td>{{ district.area }}</td>
+            </tr>
+            <tr>
+                <th>Populacja</th>
+                <td>{{ district.population }}</td>
+            </tr>
+            <tr>
+                <th>Gęstość zaludnienia</th>
+                <td>{{ district.populationDensity }}</td>
+            </tr>
+            <tr>
+                <th>Adres</th>
+                <td><a href="{{ district.url }}" target="_blank">link</a></td>
+            </tr>
+            <tr>
+                <th>Miasto</th>
+                <td>{{ district.cityName }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <ul>
+            <li>
+                <a href="{{ path('district_index') }}">Powrót do listy</a>
+            </li>
+            <li>
+                <a class="delete" data-id="{{ district.id }}" href="#">usuń</a>
+            </li>
+        </ul>
+    {% else %}
+        <h1>przepraszamy, nie ma takiej dzielnicy!</h1>
+        <a href="{{ path('district_index') }}">Powrót do listy</a>
+    {% endif %}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.delete').click(function() {
+            var id_object = $(this).data('id');
+            alert('oczywiście powinno to być dostępne dopiero po zalogowaniu i posiadaniu odpowiedniej roli:)')
+            $.ajax({
+                type: "DELETE",
+                url: "{{ url('district_index') }}" + id_object,
+                data: "name=someValue",
+                success: function(data){
+                    window.location.replace(data.url);
+                }
+            });
+        });
+    </script>
+{% endblock %}
