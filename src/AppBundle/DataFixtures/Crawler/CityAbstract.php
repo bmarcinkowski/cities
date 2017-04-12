@@ -15,8 +15,9 @@ abstract class CityAbstract {
      */
     protected function getCrawlerForAddress(string $suffix):Crawler
     {
+        dump('próbuję pobrać dane z: ' . $this->url . $suffix);
         $html = file_get_contents($this->url . $suffix);
-        dump('get data from: ' . $this->url . $suffix);
+        dump('pobrane poprawnie');
         return new Crawler($html);
     }
 
