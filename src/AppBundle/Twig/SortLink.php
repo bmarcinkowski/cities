@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kud3aty
- * Date: 12.04.2017
- * Time: 21:30
- */
 
 namespace AppBundle\Twig;
-
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
